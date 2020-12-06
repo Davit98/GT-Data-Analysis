@@ -10,7 +10,8 @@ stop_words.extend(['use','used',
                    'find','found',
                    'get','got','gotten',
                    'give','gave','given',
-                   'make','made'])
+                   'make','made',
+                   'vs'])
 
 import gensim
 from gensim.utils import simple_preprocess
