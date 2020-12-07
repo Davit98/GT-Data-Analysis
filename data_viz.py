@@ -19,43 +19,43 @@ def circle_time_series_plot(top_words,
 							text_rotation='20',
 							r=2.2):
 	"""
-    Produces a plot showing the top-n most frequent words/phrases searched per quarter. 
-    Each word is represnted with a circle, where bigger circle means more searches. 
-    
-    Parameters
-    ----------
-    top_words : dict
-        Dictionary containing top-n words with corresponding frequences per each quarter. 
+	Produces a plot showing the top-n most frequent words/phrases searched per quarter. 
+	Each word is represnted with a circle, where bigger circle means more searches. 
 
-    n : int
-    	Number of top-n words to consider. 
+	Parameters
+	----------
+	top_words : dict
+		Dictionary containing top-n words with corresponding frequences per each quarter. 
 
-    colors : list
-    	List of colours for the circles. Should contain number of colours equal to n.  
-    
-    title_fontsize : int, optional
-        Font size of the plot's title.
+	n : int
+		Number of top-n words to consider. 
 
-    text_fontsize : int, optional
-        Font size of the circles' labels.
+	colors : list
+		List of colours for the circles. Should contain number of colours equal to n.  
 
-    xlabel_fontsize : int, optional
-        Font size of the x-axis labels.
+	title_fontsize : int, optional
+		Font size of the plot's title.
 
-    ylabel_fontsize : int, optional
-        Font size of the y-axis labels.
+	text_fontsize : int, optional
+		Font size of the circles' labels.
 
-    fig_w : int, optional
-        Figure width.
-    
-    fig_h : int, optional
-        Figure height.
+	xlabel_fontsize : int, optional
+		Font size of the x-axis labels.
 
-    text_rotation : str, optional
-        Rotation angle of circles' labels. 
-    
-    r : int or float, optional
-        Coefficient to control the size of circles. Higher coefficient creates smaller circles. r must be greater than or equal to 1.
+	ylabel_fontsize : int, optional
+		Font size of the y-axis labels.
+
+	fig_w : int, optional
+		Figure width.
+
+	fig_h : int, optional
+		Figure height.
+
+	text_rotation : str, optional
+		Rotation angle of circles' labels. 
+
+	r : int or float, optional
+		Coefficient to control the size of circles. Higher coefficient creates smaller circles. r must be greater than or equal to 1.
 	"""
 
 	xaxis = list(top_words.keys())
@@ -69,13 +69,13 @@ def circle_time_series_plot(top_words,
 	ax.set_ylim((0,n+1))
 
 	for i, e in enumerate(top_words.values()):
-	    j = n
-	    for w in e:
-	        circle = plt.Circle((i+1,j),w[1]/(r*mx),color=colors[j-1])
-	        ax.add_artist(circle)
-	        ax.text(i + 1, j, w[0], fontsize=text_fontsize, color='black', rotation=text_rotation)
-	        j-=1
-	
+		j = n
+		for w in e:
+			circle = plt.Circle((i+1,j),w[1]/(r*mx),color=colors[j-1])
+			ax.add_artist(circle)
+			ax.text(i + 1, j, w[0], fontsize=text_fontsize, color='black', rotation=text_rotation)
+			j-=1
+
 	top_n_labels = ['Top 3rd word', 'Top 2nd word', 'Top 1st word']
 
 	for k in range(4,n+1):
