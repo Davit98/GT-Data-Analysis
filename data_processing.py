@@ -21,7 +21,6 @@ import spacy
 nlp = spacy.load('en', disable=['parser', 'ner'])
 
 
-
 def tokenize(docs,deacc=False):
     """ 
     Generator function for tokenizing a string.
