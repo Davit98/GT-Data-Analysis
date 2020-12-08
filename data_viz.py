@@ -211,7 +211,7 @@ def search_rate_dynamics_plot(history):
 
 
 
-def word_cloud_plot(docs,background_image_path):
+def word_cloud_plot(docs,BACKGROUND_IMAGE_PATH):
 	""" 
 	Produces a word cloud plot based on the input data with a given background image.
 
@@ -220,11 +220,11 @@ def word_cloud_plot(docs,background_image_path):
 	docs : list
 		List of tokenized strings.
 
-	background_image_path : str
+	BACKGROUND_IMAGE_PATH : str
 		Path of the background image.
 	"""
 	text = " ".join([word for doc in docs for word in doc])
-	mask = np.array(Image.open(background_image_path))
+	mask = np.array(Image.open(BACKGROUND_IMAGE_PATH))
 	wordcloud_fig = WordCloud(background_color="white", max_words=1000, mask=mask).generate(text)
 
 	# create coloring from image

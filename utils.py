@@ -143,3 +143,28 @@ def top_words_freq_history(time_stamped_data,docs,years,n_words=5):
     return top_n_words_freq
 
 
+
+
+def read_categories(FILE_PATH):
+    """ 
+    Reads and returns predefined categories with their corresponding context words from the input file.
+    Input file is expected to be txt and of format {category}/{context word} on each line.
+    
+    Parameters
+    ----------
+    FILE_PATH : str
+        Path of the txt file containing categories and the corresponding context words. 
+
+    Returns
+    -------
+    Dictionary with category names as the keys and list of the corresponding context words as the values. 
+    """
+    categories_dict = defaultdict(list)
+
+    with open(FILE_PATH, 'r') as f:
+        for line in f.readlines():
+            ctg, cntx_word = line.split('\\')
+            categories_dict[ctg].append(cntx_word.rstrip())
+
+    return categories_dict
+
