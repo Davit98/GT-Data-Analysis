@@ -21,7 +21,7 @@ import spacy
 nlp = spacy.load('en', disable=['parser', 'ner'])
 
 
-def tokenize(docs,deacc=False):
+def tokenize(docs, deacc=False):
     """ 
     Generator function for tokenizing a string.
     
@@ -133,6 +133,7 @@ def add_bigrams(docs, threshold=10.0, min_count=5):
     bigram_mod = Phraser(bigram)
     
     return [bigram_mod[doc] for doc in docs]
+
 
 
 
