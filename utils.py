@@ -210,9 +210,10 @@ def doc2vec(doc_tok, word2vec_model, vec_dim=300):
 
 
 
-def sim_to_category(doc_vec, category, word2vec_model, categories_dict):
+def sim_with_category(doc_vec, category, word2vec_model, categories_dict):
     """
-    Computes the average cosine similarity of the input document vector to the given category (e.g. Technology, Entertainment).
+    Computes the cosine similarity of the input document with the given category (e.g. Technology, Entertainment).
+    The cosine similarity is computed between the input document vector and each of the context words corresponding to the input category and averaged at the end.
 
     Parameters
     ----------
@@ -243,7 +244,44 @@ def sim_to_category(doc_vec, category, word2vec_model, categories_dict):
 
 
 
-def doc_categ_matching(docs, word2vec_model, categories_dict, thr=0.2):
+def sim_with_category_v2(doc_vec, category, word2vec_model, categories_dict):
+    """
+    Computes the cosine similarity of the input document with the given category (e.g. Technology, Entertainment).
+    The cosine similarity is computed between the input document vector and the average vector of the context words corresponding to the input category.
+
+    Parameters
+    ----------
+    doc_vec : numpy.ndarray
+        Vector representing the document.
+
+    category : str
+        Category name from the following list: ['Technology', 'Entertainment', 'Education', 'Health', 'Business', 'Law & Politics', 'Living', 'Finance']
+
+    word2vec_model : gensim.Word2VecKeyedVectors
+        Word2vec model.
+
+    categories_dict : dict or collections.defaultdict
+        Dictionary with category names as the keys and list of the corresponding context words as the values. 
+
+    Returns
+    -------
+    An integer representing how similar the input document is to the input category with respect to cosine similarity.
+    """
+    dim = len(word2vec_model.get_vector(categories_dict[category][0]))
+    shape = (len(categories_dict[category]),dim)
+    context_words_vectors = np.zeros(shape)
+
+    i = 0
+    for context_word in categories_dict[category]:
+        context_words_vectors[i] = word2vec_model.get_vector(context_word)
+
+    sim_score = cosine_similarity([doc_vec,context_words_vectors.mean(axis=0)])[0][1]
+    return sim_score
+
+
+
+
+def doc_categ_matching(docs, word2vec_model, categories_dict, sim_method, thr=0.2):
     """
     Maps each document in the given list of documents to the best matching (closest) category.
 
@@ -257,6 +295,9 @@ def doc_categ_matching(docs, word2vec_model, categories_dict, thr=0.2):
 
     categories_dict : dict or collections.defaultdict
         Dictionary with category names as the keys and list of the corresponding context words as the values. 
+
+    method : function
+        Specifies the method for finding the best matching category.
 
     thr : int, optional
         A document having its highest similarity score less than the value of thr is ignored and is not considered close to any of the predefined categories.
@@ -278,7 +319,7 @@ def doc_categ_matching(docs, word2vec_model, categories_dict, thr=0.2):
         if len(doc_vec)>0:
             cos_sim = -2
             for categ in categories_dict.keys():
-                sim_score = sim_to_category(doc_vec, categ, word2vec_model, categories_dict)
+                sim_score = sim_method(doc_vec, categ, word2vec_model, categories_dict)
                 if sim_score>cos_sim:
                     best_categ = categ
                     cos_sim = sim_score
