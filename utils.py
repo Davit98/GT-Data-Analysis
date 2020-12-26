@@ -267,7 +267,7 @@ def sim_with_category_v2(doc_vec, category, word2vec_model, categories_dict):
     -------
     An integer representing how similar the input document is to the input category with respect to cosine similarity.
     """
-    dim = len(word2vec_model.get_vector(categories_dict[category][0]))
+    dim = word2vec_model.vector_size
     shape = (len(categories_dict[category]),dim)
     context_words_vectors = np.zeros(shape)
 
