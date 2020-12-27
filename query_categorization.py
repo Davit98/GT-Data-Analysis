@@ -139,23 +139,23 @@ def doc_categ_matching_windowed(docs_df, word2vec_model, categories_dict, sim_me
 	Parameters
 	----------
 	docs_df : pandas.DataFrame
-	Timestamped documents. The dataframe is expected to contain column names 'time_stamp' and 'query'
-	with the latter containing the list of documents and the former - the corresponding timestamps. 
+    	Timestamped documents. The dataframe is expected to contain column names 'time_stamp' and 'query'
+    	with the latter containing the list of documents and the former - the corresponding timestamps. 
 
 	word2vec_model : gensim.Word2VecKeyedVectors
-	Word2vec model.
+	   Word2vec model.
 
 	categories_dict : dict or collections.defaultdict
-	Dictionary with category names as the keys and list of the corresponding context words as the values. 
+	   Dictionary with category names as the keys and list of the corresponding context words as the values. 
 
 	method : function
-	Specifies the method for finding the best matching category.
+	   Specifies the method for finding the best matching category.
 
 	window : int, optional
-	Two documents having timestamps difference (in seconds) less than window are put into the same group. 
+	   Two documents having timestamps difference (in seconds) less than window are put into the same group. 
 
 	thr : int, optional
-	A document having its highest similarity score less than the value of thr is ignored and is not considered close to any of the predefined categories.
+	   A document having its highest similarity score less than the value of thr is ignored and is not considered close to any of the predefined categories.
 
 	Returns
 	-------

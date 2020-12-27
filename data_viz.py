@@ -243,11 +243,11 @@ def categories_tsne_plot(word2vec_model, categories_dict):
 
 	Parameters
 	----------
-    word2vec_model : gensim.Word2VecKeyedVectors
-        Word2vec model.
+	word2vec_model : gensim.Word2VecKeyedVectors
+		Word2vec model.
 
-    categories_dict : dict or collections.defaultdict
-        Dictionary with category names as the keys and list of the corresponding context words as the values. 
+	categories_dict : dict or collections.defaultdict
+		Dictionary with category names as the keys and list of the corresponding context words as the values. 
 	"""
 	n = len(categories_dict.keys())
 	dim = word2vec_model.vector_size
@@ -256,11 +256,11 @@ def categories_tsne_plot(word2vec_model, categories_dict):
 
 	j = 0
 	for _, context_words in categories_dict.items():
-	    v = np.zeros(dim)
-	    for word in context_words:
-	        v+=word2vec_model.get_vector(word)
-	    categ_centroids[j] = v/len(context_words)
-	    j+=1
+		v = np.zeros(dim)
+		for word in context_words:
+			v+=word2vec_model.get_vector(word)
+		categ_centroids[j] = v/len(context_words)
+		j+=1
 
 
 	tsne = TSNE(n_components=2, init='pca', verbose=0) 
@@ -274,7 +274,7 @@ def categories_tsne_plot(word2vec_model, categories_dict):
 	plt.scatter(vis_data_x, vis_data_y, s=1000)
 
 	for label, x, y in zip(categories_dict.keys(), vis_data_x, vis_data_y):
-	    plt.annotate(label, xy=(x, y), xytext=(15, 15), textcoords='offset points', fontsize=30)
+		plt.annotate(label, xy=(x, y), xytext=(15, 15), textcoords='offset points', fontsize=30)
 
 	plt.title('2D t-SNE vizualization of the 8 categories', fontsize=30)
 	plt.show()
@@ -288,11 +288,11 @@ def context_words_tsne_plot(word2vec_model, categories_dict):
 
 	Parameters
 	----------
-    word2vec_model : gensim.Word2VecKeyedVectors
-        Word2vec model.
+	word2vec_model : gensim.Word2VecKeyedVectors
+		Word2vec model.
 
-    categories_dict : dict or collections.defaultdict
-        Dictionary with category names as the keys and list of the corresponding context words as the values. 
+	categories_dict : dict or collections.defaultdict
+		Dictionary with category names as the keys and list of the corresponding context words as the values. 
 	"""
 	categ_sizes = [len(v) for _, v in categories_dict.items()]
 	word_names = [word for _, context_words in categories_dict.items() for word in context_words]
@@ -303,15 +303,15 @@ def context_words_tsne_plot(word2vec_model, categories_dict):
 	context_word_vecs = np.zeros((n,dim))
 	j = 0
 	for word in word_names:
-	    context_word_vecs[j] = word2vec_model.get_vector(word)
-	    j+=1
+		context_word_vecs[j] = word2vec_model.get_vector(word)
+		j+=1
 
 	tsne = TSNE(n_components=2, init='pca', verbose=0) 
 	context_words_2D = tsne.fit_transform(context_word_vecs)
 
 	categ_sizes_cum = []
 	for i in range(len(categ_sizes)+1):
-	    categ_sizes_cum.append(sum(categ_sizes[:i]))
+		categ_sizes_cum.append(sum(categ_sizes[:i]))
 
 	vis_data_x = context_words_2D[:,0]
 	vis_data_y = context_words_2D[:,1]
@@ -319,10 +319,10 @@ def context_words_tsne_plot(word2vec_model, categories_dict):
 	plt.figure(figsize=(40, 40))
 
 	for i in range(len(categ_sizes_cum)-1):
-	    plt.scatter(vis_data_x[categ_sizes_cum[i]:categ_sizes_cum[i+1]], vis_data_y[categ_sizes_cum[i]:categ_sizes_cum[i+1]], s=500)
+		plt.scatter(vis_data_x[categ_sizes_cum[i]:categ_sizes_cum[i+1]], vis_data_y[categ_sizes_cum[i]:categ_sizes_cum[i+1]], s=500)
 
 	for label, x, y in zip(word_names, vis_data_x, vis_data_y):
-	    plt.annotate(label, xy=(x, y), xytext=(5, 5), textcoords='offset points', fontsize=20)
+		plt.annotate(label, xy=(x, y), xytext=(5, 5), textcoords='offset points', fontsize=20)
 
 	plt.title('2D t-SNE vizualization of the context words', fontsize=40)
 	plt.legend(categories_dict.keys(), fontsize=25)
