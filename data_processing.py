@@ -20,6 +20,8 @@ from gensim.models.phrases import Phrases, Phraser
 import spacy
 nlp = spacy.load('en', disable=['parser', 'ner'])
 
+import numpy as np
+
 
 def tokenize(docs, deacc=False):
     """ 
@@ -133,6 +135,41 @@ def add_bigrams(docs, threshold=10.0, min_count=5):
     bigram_mod = Phraser(bigram)
     
     return [bigram_mod[doc] for doc in docs]
+
+
+
+
+def doc2vec(doc_tok, word2vec_model, vec_dim=300):
+    """
+    Mapping a tokenized document to a single vector through averaging. 
+
+    Parameters
+    ----------
+    doc_tok : list
+        Tokenized string.
+
+    word2vec_model : gensim.Word2VecKeyedVectors
+        Word2vec model.
+
+    vec_dim: int, optional
+        Dimension of word vectors. Must be the same as in the word2vec_model. 
+
+    Returns
+    -------
+    A numpy array of dimension vec_dim representing the input document. 
+    """
+    doc_2_vec = np.zeros(vec_dim)
+
+    i = 0
+    for w in doc_tok:
+        if w in word2vec_model.vocab.keys():
+            doc_2_vec += word2vec_model.get_vector(w)
+            i+=1
+    if i>0:
+        return doc_2_vec/i
+    return np.array([])
+
+
 
 
 
