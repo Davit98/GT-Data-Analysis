@@ -131,36 +131,36 @@ def doc_categ_matching(docs, word2vec_model, categories_dict, sim_method, thr=0.
 
 
 def doc_categ_matching_windowed(docs_df, word2vec_model, categories_dict, sim_method, window=60, thr=0.2):
-	"""
-	Maps each document in the given list of documents to the best matching(closest) category. Implements the same algorithm
-	as doc_categ_matching(), in addition taking into account documents' timestamps - documents having timestamps close to 
-	each other are grouped and then matched to the same category based on majority voting principle.
+    """
+    Maps each document in the given list of documents to the best matching(closest) category. Implements the same algorithm
+    as doc_categ_matching(), in addition taking into account documents' timestamps - documents having timestamps close to 
+    each other are grouped and then matched to the same category based on majority voting principle.
 
-	Parameters
-	----------
-	docs_df : pandas.DataFrame
-    	Timestamped documents. The dataframe is expected to contain column names 'time_stamp' and 'query'
-    	with the latter containing the list of documents and the former - the corresponding timestamps. 
+    Parameters
+    ----------
+    docs_df : pandas.DataFrame
+        Timestamped documents. The dataframe is expected to contain column names 'time_stamp' and 'query'
+        with the latter containing the list of documents and the former - the corresponding timestamps. 
 
-	word2vec_model : gensim.Word2VecKeyedVectors
-	   Word2vec model.
+    word2vec_model : gensim.Word2VecKeyedVectors
+        Word2vec model.
 
-	categories_dict : dict or collections.defaultdict
-	   Dictionary with category names as the keys and list of the corresponding context words as the values. 
+    categories_dict : dict or collections.defaultdict
+        Dictionary with category names as the keys and list of the corresponding context words as the values. 
 
-	method : function
-	   Specifies the method for finding the best matching category.
+    method : function
+        Specifies the method for finding the best matching category.
 
-	window : int, optional
-	   Two documents having timestamps difference (in seconds) less than window are put into the same group. 
+    window : int, optional
+        Two documents having timestamps difference (in seconds) less than window are put into the same group. 
 
-	thr : int, optional
-	   A document having its highest similarity score less than the value of thr is ignored and is not considered close to any of the predefined categories.
+    thr : int, optional
+        A document having its highest similarity score less than the value of thr is ignored and is not considered close to any of the predefined categories.
 
-	Returns
-	-------
-	Dictionary with categories as the keys and matched documents as the values. 
-	"""
+    Returns
+    -------
+    Dictionary with categories as the keys and matched documents as the values. 
+    """
 	docs_raw = docs_df['query'].tolist()
 
 	docs_df['query'] = docs_df['query'].apply(lambda q: q if is_english(q) else '') # keep only English queries
