@@ -161,75 +161,86 @@ def doc_categ_matching_windowed(docs_df, word2vec_model, categories_dict, sim_me
     -------
     Dictionary with categories as the keys and matched documents as the values. 
     """
-	docs_raw = docs_df['query'].tolist()
+    docs_raw = docs_df['query'].tolist()
+    docs_df_copy = docs_df.copy()
 
-	docs_df['query'] = docs_df['query'].apply(lambda q: q if is_english(q) else '') # keep only English queries
-	docs_df['query'] = list(tokenize(docs_df['query'].tolist()))
-	docs_df['query'] = remove_stopwords(docs_df['query'].tolist())
-	# docs_df = docs_df[docs_df['query'].map(len)>0]
+    docs_df_copy['query'] = docs_df_copy['query'].apply(lambda q: q if is_english(q) else '') # keep only English queries
+    docs_df_copy['query'] = list(tokenize(docs_df_copy['query'].tolist()))
+    docs_df_copy['query'] = remove_stopwords(docs_df_copy['query'].tolist())
 
-	doc2categ_mapping = defaultdict(list)
+    doc2categ_mapping = defaultdict(list)
 
-	pbar = tqdm(total=docs_df.shape[0])
+    pbar = tqdm(total=docs_df_copy.shape[0])
 
-	i = 0
-	while i < docs_df.shape[0]-1:
-		group = []
-		k = 0
+    i = 0
+    while i < docs_df_copy.shape[0]-1:
+        group = []
+        k = 0
 
-		if i==docs_df.shape[0]-2:
-			group.append(docs_df.iloc[i].query)
-			k+=1
-			i+=1
+        if i==docs_df_copy.shape[0]-2:
+            group.append(docs_df_copy.iloc[i].query)
+            k+=1
+            i+=1
 
-		else:
-			while True:
-				k+=1
-				tmp_cur = docs_df.iloc[i].time_stamp
-				tmp_prev = docs_df.iloc[i+1].time_stamp
+        else:
+            while True:
+                k+=1
+                tmp_cur = docs_df_copy.iloc[i].time_stamp
+                tmp_prev = docs_df_copy.iloc[i+1].time_stamp
 
-				diff = round((tmp_cur - tmp_prev).total_seconds())
-				if diff<window:
-					group.append(docs_df.iloc[i].query)
-					i+=1
-					if i==docs_df.shape[0]-2:
-						group.append(docs_df.iloc[i].query)
-						break
-				else:
-					group.append(docs_df.iloc[i].query)
-					i+=1
-					break
+                diff = round((tmp_cur - tmp_prev).total_seconds())
+                if diff<window:
+                    group.append(docs_df_copy.iloc[i].query)
+                    i+=1
+                    if i==docs_df_copy.shape[0]-2:
+                        group.append(docs_df_copy.iloc[i].query)
+                        break
+                else:
+                    group.append(docs_df_copy.iloc[i].query)
+                    i+=1
+                    break
 
-		if i==docs_df.shape[0]-1:
-			pbar.update(k+1)
-		else:
-			pbar.update(k)                
+        if i==docs_df_copy.shape[0]-1:
+            pbar.update(k+1)
+        else:
+            pbar.update(k)                
 
-		doc2categ_mapping_mini = defaultdict(list)
-		for doc in group:
-			doc_vec = doc2vec(doc, word2vec_model)
-			if len(doc_vec)>0:
-				cos_sim = -2
-				for categ in categories_dict.keys():
-					sim_score = sim_method(doc_vec, categ, word2vec_model, categories_dict)
-					if sim_score>cos_sim:
-						best_categ = categ
-						cos_sim = sim_score
+        doc2categ_mapping_mini = defaultdict(list)
+        for doc in group:
+            doc_vec = doc2vec(doc, word2vec_model)
+            if len(doc_vec)>0:
+                cos_sim = -2
+                for categ in categories_dict.keys():
+                    sim_score = sim_method(doc_vec, categ, word2vec_model, categories_dict)
+                    if sim_score>cos_sim:
+                        best_categ = categ
+                        cos_sim = sim_score
 
-				if cos_sim>thr:
-					doc2categ_mapping_mini[best_categ].append(doc)
+                if cos_sim>thr:
+                    doc2categ_mapping_mini[best_categ].append((doc,cos_sim))
 
-		if len(doc2categ_mapping_mini)>0:
-			categ_sizes = [len(vals) for _, vals in doc2categ_mapping_mini.items()]
-			index = categ_sizes.index(max(categ_sizes)) # majority voting
-			winner_categ = list(doc2categ_mapping_mini.keys())[index]
+        if len(doc2categ_mapping_mini)>0:
+            categ_sizes = np.array([len(vals) for _, vals in doc2categ_mapping_mini.items()])
+            index = np.argwhere(categ_sizes==max(categ_sizes)).reshape(-1)
+            keys = list(doc2categ_mapping_mini.keys())
 
-			for j, doc in enumerate(group):
-				doc2categ_mapping[winner_categ].append(docs_raw[j+i-len(group)])
+            if len(index)==1:
+                winner_categ = keys[index[0]]
+            else:
+                l = []
+                for ind in index:
+                    sm = 0
+                    for each in doc2categ_mapping_mini[keys[ind]]:
+                        sm+=each[1]
+                    l.append(sm)
+                winner_categ = keys[index[l.index(max(l))]]
 
-	pbar.close()
+            for j, doc in enumerate(group):
+                doc2categ_mapping[winner_categ].append(docs_raw[j+i-len(group)])
 
-	return doc2categ_mapping
+    pbar.close()
+
+    return doc2categ_mapping
 
 
 
