@@ -239,7 +239,7 @@ def word_cloud_plot(docs,BACKGROUND_IMAGE_PATH):
 
 def categories_tsne_plot(word2vec_model, categories_dict):
 	"""
-	Creates 2D plot of the context words' average vectors for each of the main categories using t-SNE visualization technique.
+	Produces a 2D plot of the context words' average vectors for each of the main categories using t-SNE visualization technique.
 
 	Parameters
 	----------
@@ -284,7 +284,7 @@ def categories_tsne_plot(word2vec_model, categories_dict):
 
 def context_words_tsne_plot(word2vec_model, categories_dict):
 	"""
-	Creates 2D plot of the context words using t-SNE visualization technique.
+	Produces a 2D plot of the context words using t-SNE visualization technique.
 
 	Parameters
 	----------
@@ -326,6 +326,27 @@ def context_words_tsne_plot(word2vec_model, categories_dict):
 
 	plt.title('2D t-SNE vizualization of the context words', fontsize=40)
 	plt.legend(categories_dict.keys(), fontsize=25)
+	plt.show()
+
+
+
+
+def categories_pie_chart_plot(categorization):
+	"""
+	Produces a pie chart based on document categorization results.
+
+	Parameters
+	----------
+	categorization : dict or collections.defaultdict
+		Dictionary with category names as the keys and number of matched documents to each category as the values. 
+	"""
+	plt.figure(figsize=(40,40))
+
+	wedge_sizes = list(categorization.values())
+	wedge_labels = list(categorization.keys())
+
+	plt.pie(x=wedge_sizes, labels=wedge_labels, autopct='%1.1f%%',textprops={'fontsize':35})
+	plt.title('Query Categorization Results',fontsize=47)
 	plt.show()
 
 
