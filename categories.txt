@@ -31,6 +31,7 @@ Entertainment\facebook
 Entertainment\twitter
 Entertainment\blog
 Entertainment\vlog
+Entertainment\app
 Entertainment\gaming
 Entertainment\podcast
 Entertainment\celebrity
@@ -38,6 +39,7 @@ Entertainment\influencer
 Entertainment\music
 Entertainment\movies
 Entertainment\fun
+Entertainment\hobby
 Entertainment\video
 Entertainment\pictures
 Entertainment\multimedia
@@ -78,7 +80,6 @@ Education\humanities
 Education\reading
 Education\literature
 Education\languages
-Education\computer
 Health\health
 Health\medicine
 Health\vaccine
@@ -132,7 +133,6 @@ Business\business
 Business\entrepreneurship
 Business\startup
 Business\innovation
-Business\technology
 Business\self-employed
 Business\investment
 Business\commercial
@@ -144,7 +144,6 @@ Business\economy
 Business\consulting
 Business\clients
 Business\venture
-Business\job
 Business\operations
 Business\profit
 Business\revenue
@@ -155,7 +154,6 @@ Business\employment
 Business\clientele
 Business\salary
 Business\industry
-Business\internship
 Business\income
 Business\supply
 Business\payroll
@@ -176,7 +174,6 @@ Law & Politics\government
 Law & Politics\banning
 Law & Politics\rights
 Law & Politics\public
-Law & Politics\marriage
 Law & Politics\regulation
 Law & Politics\policy
 Law & Politics\democracy
@@ -188,11 +185,9 @@ Law & Politics\jurisdiction
 Law & Politics\corrupt
 Law & Politics\elect
 Law & Politics\economics
-Law & Politics\corporate
 Law & Politics\election
 Law & Politics\journalist
 Law & Politics\politician
-Law & Politics\business
 Law & Politics\conservative
 Law & Politics\sociology
 Law & Politics\party
@@ -218,7 +213,6 @@ Living\messaging
 Living\chat
 Living\gardening
 Living\cooking
-Living\health
 Living\book
 Living\car
 Living\fashion
@@ -228,6 +222,7 @@ Living\diets
 Living\eating
 Living\leisure
 Living\family
+Living\marriage
 Living\kids
 Living\houseware
 Living\home
@@ -240,13 +235,13 @@ Living\dating
 Living\relationships
 Living\shopping
 Living\groceries
-Living\products
 Living\tourism
 Living\sightseeing
 Living\dining
 Living\biking
 Living\rent
 Living\lease
+Living\job
 Living\exercise
 Living\clothing
 Finance\finance
@@ -269,6 +264,10 @@ Finance\economy
 Finance\credit
 Finance\tax
 Finance\funding
+Finance\payment
+Finance\budget
+Finance\loan
+Finance\monetary
 Finance\spending
 Finance\savings
 Finance\accounting
