@@ -14,7 +14,7 @@ This repo includes all the code used for analyzing the collected google search h
 
 *empath_helper.py* - helper functions for using Empath.
 
-*query_categorization.py* - contains both the original and modified version of the algorithm used for doing web search query categorization 
+*query_categorization.py* - contains both the original and modified version of the algorithm used for doing web search query categorization. 
 
 *utils.py* - utility functions such as reading the categories from categories.txt file.
 
