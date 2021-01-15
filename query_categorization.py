@@ -134,7 +134,7 @@ def doc_categ_matching_windowed(docs_df, word2vec_model, categories_dict, sim_me
     """
     Maps each document in the given list of documents to the best matching(closest) category. Implements the same algorithm
     as doc_categ_matching(), in addition taking into account documents' timestamps - documents having timestamps close to 
-    each other are grouped and then matched to the same category based on majority voting principle.
+    each other are considered as a group and then matched to the same category based on majority voting principle.
 
     Parameters
     ----------

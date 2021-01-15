@@ -23,7 +23,7 @@ def circle_time_series_plot(top_words,
 							r=2.2):
 	"""
 	Produces a plot showing the top-n most frequent words/phrases searched per quarter. 
-	Each word is represnted with a circle, where bigger circle means more searches. 
+	Each word is represented with a circle, where bigger circle means more searches. 
 
 	Parameters
 	----------
