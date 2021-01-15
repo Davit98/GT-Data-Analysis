@@ -18,4 +18,4 @@ This repo includes all the code used for analyzing the collected google search h
 
 *utils.py* - utility functions such as reading the categories from categories.txt file.
 
-Note: The collected google search history json files reside in our server. The path for accessing the data files: /var/www/webAppGT/webAppGT/survey_data_backup/survey_data.
+**Note:** The collected google search history json files reside in our server. The path for accessing the data files: /var/www/webAppGT/webAppGT/survey_data_backup/survey_data.
